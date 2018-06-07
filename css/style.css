@@ -1,0 +1,52 @@
+/* ---- reset ---- */
+ol,
+ul {
+    padding: 0;
+    margin: 0;
+}
+
+/* ---- general ---- */
+body, html {
+	height: 100%;
+}
+
+body {
+	background-image: url(../img/background.jpg);
+	background-size: cover;
+}
+
+h3 {
+	font-weight: 400;
+	margin: 0 0 2%;
+}
+
+/* ---- layout ---- */
+
+.app-container{
+	margin-top: 10%;
+	max-width: 450px;
+	width: 100%;
+	background-color: rgba(255, 255, 255, 0.7);
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+	padding: 2%;
+	border-radius: 5px;
+}
+
+/* ---- new task section ---- */
+.new-task-container{
+	margin-bottom: 4%;
+}
+
+/* ---- tasks list ---- */
+.tasks-container ul{
+	list-style: none;	
+}
+
+.single-task {
+	margin-bottom:3%;
+}
+
+/* ---- bootstrap overwrite ---- */
+.form-control {
+	border-color: #fff;
+}
