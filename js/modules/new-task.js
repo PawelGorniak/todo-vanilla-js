@@ -17,3 +17,13 @@ function taskInnerHTML(title){
 				'</div>';
 
 }
+
+/* ---- add event listener to new task form --- */
+
+function addListenerNewTask(){
+	newTaskForm.addEventListener('submit',function(event){
+		event.preventDefault();
+		const newValue = this.querySelector('input').value;
+		if(newValue){ addNewTask(newValue); }
+	});
+}
