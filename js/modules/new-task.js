@@ -2,7 +2,23 @@ function addNewTask(title) {
 	const task = document.createElement('li');
 	task.innerHTML = taskInnerHTML(title);
 	task.classList.add('single-task');
+
+	// add Event listeners to btn delete and complete 
+	const toogleCompleteBtn = task.querySelector('.toogle-complete-btn');
+	const deleteTaskBtn = task.querySelector('.delete-task-btn');
+
+	toogleCompleteBtn.addEventListener('click', function(){
+		console.log("test");
+		toogleComplete(this);
+	}) 
+
+	deleteTaskBtn.addEventListener('click', function(){
+		deleteTask(this);
+	})
 	taskList.appendChild(task);
+
+
+
 }
 
 function taskInnerHTML(title){
