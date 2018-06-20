@@ -1,14 +1,15 @@
 function addNewTask(title) {
+	const taskList = document.querySelector(UIController.getDOMStrings().taskList);
+	// cerate new element list item
 	const task = document.createElement('li');
-	task.innerHTML = taskInnerHTML(title);
+	task.innerHTML = itemHTML(title);
 	task.classList.add('single-task');
 
 	// add Event listeners to btn delete and complete 
-	const toogleCompleteBtn = task.querySelector('.toogle-complete-btn');
-	const deleteTaskBtn = task.querySelector('.delete-task-btn');
+	const toogleCompleteBtn = task.querySelector(UIController.getDOMStrings().completeBtn);
+	const deleteTaskBtn = task.querySelector(UIController.getDOMStrings().deleteBtn);
 
 	toogleCompleteBtn.addEventListener('click', function(){
-		console.log("test");
 		toogleComplete(this);
 	}) 
 
@@ -21,7 +22,7 @@ function addNewTask(title) {
 
 }
 
-function taskInnerHTML(title){
+function itemHTML(title){
 	return '<div class="input-group">' +
 						'<div class="input-group-prepend">'+
 							'<button class="btn btn-light toogle-complete-btn" type="button"><i class="far fa-check-circle"></i></button>'
@@ -31,15 +32,16 @@ function taskInnerHTML(title){
 							'<button class="btn btn-danger delete-task-btn" type="button"><i class="far fa-times-circle"></i></button>' +
 						'</div>' +
 				'</div>';
-
 }
 
 /* ---- add event listener to new task form --- */
 
-function addListenerNewTask(){
+/* function addListenerNewTask(){
+	const newTaskForm = document.querySelector(UIController.getDOMStrings().newTaskForm);
 	newTaskForm.addEventListener('submit',function(event){
 		event.preventDefault();
 		const newValue = this.querySelector('input').value;
 		if(newValue){ addNewTask(newValue); }
 	});
 }
+*/

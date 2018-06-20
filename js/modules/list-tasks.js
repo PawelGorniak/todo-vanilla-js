@@ -1,3 +1,5 @@
+
+
 function showTasks(tasks){	
 	tasks.forEach(function(title){
 		addNewTask(title);		
@@ -17,7 +19,5 @@ function toogleComplete(btnComplete){
 function deleteTask(btnDelete){
 	const taskUl = btnDelete.closest('ul');
 	const taskLi = btnDelete.closest('li');
-	taskUl.removeChild(taskLi);
-
-	
+	taskUl.removeChild(taskLi);	
 }
