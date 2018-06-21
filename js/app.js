@@ -5,18 +5,38 @@
 */
 
 const dataController = (function(){
-	const tasks = [
-	'Przeczytac ksiazke',
-	'Pojsc biegac',
-	'Posprzatac piwnice',
-	'Naprawic kran'
-	];
+
+	const dataTasks = [
+		{
+			id: "0",
+		 	title: "Przeczytac ksiazke",
+		 },
+		 {
+			id: "1",
+		 	title: "Pojsc biegac",
+		 },
+		 {
+			id: "2",
+		 	title: "Wyjśc z psem",
+		 },
+		 {
+			id: "3",
+		 	title: "Posprzątac piwnicę",
+		 }
+	]
+// const test = localStorage.getItem('1');
 	return {
 		getTasks: function(){
-			return tasks;
+			return dataTasks;
 		},
-		dataAddTask: function(task){
-
+		addNewTask: function(taskTitle){
+			dataTasks.push({
+				id: "jeden",
+				title: taskTitle });
+		},
+		addLocalStorage: function(data){
+				// const tasksString = data.join(',');				
+				localStorage.setItem("taskArray", JSON.stringify(data));
 		}
 
 	}
@@ -61,10 +81,11 @@ const UIController = (function() {
 			// add new element to list
 			taskList.appendChild(task);			
 		},
-		showTasks: function(tasks){
-			tasks.forEach(function(current){
-		UIController.addNewTask(current);		
-	})
+		showTasks: function(tasksObj){
+			for (var key in tasksObj){
+				let current = tasksObj[key];
+				UIController.addNewTask(current.title);		
+			}	
 		}
 	}
 })();
@@ -94,6 +115,7 @@ const appController = (function(){
   		// add new Item
 		if(newItemValue){			
 			UIController.addNewTask(newItemValue);
+			dataController.addNewTask(newItemValue);
 		}
 	};
 
@@ -110,7 +132,8 @@ const appController = (function(){
 return {
 	init: function(){
 		setupListeners();
-		UIController.showTasks(dataController.getTasks());			
+		UIController.showTasks(dataController.getTasks());
+		dataController.addLocalStorage(dataController.getTasks());		
 		}
 	}
 
