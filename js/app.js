@@ -1,7 +1,27 @@
-document.addEventListener('DOMContentLoaded', function(){
-	/* addListenerNewTask(); */
+/* document.addEventListener('DOMContentLoaded', function(){
+	// addListenerNewTask();
 	showTasks(tasks);
 })
+*/
+
+const dataController = (function(){
+	const tasks = [
+	'Przeczytac ksiazke',
+	'Pojsc biegac',
+	'Posprzatac piwnice',
+	'Naprawic kran'
+	];
+	return {
+		getTasks: function(){
+			return tasks;
+		},
+		dataAddTask: function(task){
+
+		}
+
+	}
+})();
+
 
 const UIController = (function() {
 	
@@ -25,7 +45,6 @@ const UIController = (function() {
 					</div>`;
 					}
 
-
 	return {
 		getInputNewTask: function(){
 		return document.querySelector(DOMstrings.newTaskInput).value;
@@ -41,6 +60,11 @@ const UIController = (function() {
 			task.classList.add('single-task');
 			// add new element to list
 			taskList.appendChild(task);			
+		},
+		showTasks: function(tasks){
+			tasks.forEach(function(current){
+		UIController.addNewTask(current);		
+	})
 		}
 	}
 })();
@@ -81,30 +105,17 @@ const appController = (function(){
 		} else if(btn.classList.contains('toogle-complete-btn')){
 			$(btn).toggleClass('btn-success btn-light');
 		}
-
-		/* toogleCompleteBtn.addEventListener('click', function(){
-				toogleComplete(this);
-			}) 
-
-			deleteTaskBtn.addEventListener('click', function(){
-				deleteTask(this);
-			}) */
-
 	}
-	
-
-	// add delete listener
-
-	// add complete listener
-
 
 return {
 	init: function(){
 		setupListeners();
-
+		UIController.showTasks(dataController.getTasks());			
+		}
 	}
+
 }
-})();
+)();
 
 appController.init();
 
