@@ -40,8 +40,15 @@ const dataController = (function(){
 		addNewTask: function(newID, taskTitle){	
 
 			tasksData.push({
-				id: [newID],
+				id: newID,
 				title: taskTitle });
+		},
+		delTask: function(id){
+			const arrayID = tasksData.findIndex(function(element){
+
+				return element.id === id;
+			});
+			tasksData.splice(arrayID,1);
 		},
 		updateLS: function(nameLS){
 				// const tasksString = data.join(',');	
@@ -158,8 +165,12 @@ const controller = (function(){
 	const ctrlDelComplete = function(event){
 		const btn = event.target.closest('button');
 		if (btn.classList.contains('delete-task-btn')){
+			const idToRemove =  parseInt(btn.parentNode.previousSibling.previousSibling.id.split('-')[1]);
+			dataController.delTask(idToRemove);
+			dataController.updateLS(ctrlSets.LSTasksArray);	
 			btn.parentNode.parentNode.remove();
 			// del this task from data
+
 			// update LS
 		} else if(btn.classList.contains('toogle-complete-btn')){
 			$(btn).toggleClass('btn-success btn-light');
