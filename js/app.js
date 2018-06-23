@@ -6,7 +6,8 @@
 
 const dataController = (function(){
 
-	const dataTasks = [
+	let tasksData = [
+		/*
 		{
 			id: "0",
 		 	title: "Przeczytac ksiazke",
@@ -23,20 +24,35 @@ const dataController = (function(){
 			id: "3",
 		 	title: "Posprzątac piwnicę",
 		 }
+		 */
 	]
+
+	const importLS = function(nameLS){
+
+			return JSON.parse(localStorage.getItem(nameLS));
+		};
 // const test = localStorage.getItem('1');
 	return {
 		getTasks: function(){
-			return dataTasks;
+
+			return tasksData;
 		},
-		addNewTask: function(taskTitle){
-			dataTasks.push({
-				id: "jeden",
+		addNewTask: function(newID, taskTitle){	
+
+			tasksData.push({
+				id: [newID],
 				title: taskTitle });
 		},
-		addLocalStorage: function(data){
-				// const tasksString = data.join(',');				
-				localStorage.setItem("taskArray", JSON.stringify(data));
+		updateLS: function(nameLS){
+				// const tasksString = data.join(',');	
+
+				localStorage.setItem(nameLS, JSON.stringify(tasksData));
+		},
+		updateData(LSArray){	
+			const importedTasksArray = importLS(LSArray);			
+			if (importedTasksArray){
+			tasksData = importedTasksArray;}
+
 		}
 
 	}
@@ -53,12 +69,12 @@ const UIController = (function() {
 	newTaskInput: ".new-task__input"
 	};
 
-	const taskInnerHTML = function(title){
+	const taskInnerHTML = function(id, title){
 			return `<div class="input-group">
 						<div class="input-group-prepend">
 							<button class="btn btn-light toogle-complete-btn" type="button"><i class="far fa-check-circle"></i></button>
 						</div>
-						<input type="text" class="form-control" placeholder="Nowe zadanie ..." name="task-to-add" value="${title}">
+						<input type="text" class="form-control" id="id-${id}" placeholder="Nowe zadanie ..." name="task-to-add" value="${title}">
 						<div class="input-group-append">
 							<button class="btn btn-danger delete-task-btn" type="button"><i class="far fa-times-circle"></i></button>
 						</div>
@@ -72,28 +88,36 @@ const UIController = (function() {
 		getDOMStrings: function() {
 			return DOMstrings;
 		},
-		addNewTask: function(taskTitle) {
+		addNewTask: function(id, taskTitle) {			
 			const taskList = document.querySelector(DOMstrings.taskList);
 			// create new element list item
 			const task = document.createElement('li');
-			task.innerHTML = taskInnerHTML(taskTitle);
+			task.innerHTML = taskInnerHTML(id, taskTitle);
 			task.classList.add('single-task');
 			// add new element to list
 			taskList.appendChild(task);			
 		},
 		showTasks: function(tasksObj){
+console.log(tasksObj);
 			for (var key in tasksObj){
+
+
 				let current = tasksObj[key];
-				UIController.addNewTask(current.title);		
+				UIController.addNewTask("1", current.title);	
+
 			}	
 		}
 	}
 })();
 
 
-const appController = (function(){
+const controller = (function(){
+	const ctrlSets = {
+		LSTasksArray: 'tasksArray'
 
-	const setupListeners = function(){
+	}
+
+	const ctrlSetupListeners = function(){
 	const DOM = UIController.getDOMStrings();
 
 	// add listener to new task form
@@ -107,39 +131,59 @@ const appController = (function(){
 	};
 
 	const ctrlAddItem = function(event){
+		let newID;
 		event.preventDefault();
 
 		// get value from newTaskInput
   		const newItemValue = UIController.getInputNewTask();
+  		
 
   		// add new Item
-		if(newItemValue){			
-			UIController.addNewTask(newItemValue);
-			dataController.addNewTask(newItemValue);
+		if(newItemValue){
+			const data = dataController.getTasks();
+			console.log(data);
+			if(data.length > 0){
+			const lastID = data[data.length - 1].id;
+			newID =  +lastID + 1;}
+			else {
+			newID = 0;
+			}
+			console.log(newID);
+			UIController.addNewTask(newID, newItemValue);
+			dataController.addNewTask(newID, newItemValue);
+			dataController.updateLS(ctrlSets.LSTasksArray);		
 		}
 	};
 
 	const ctrlDelComplete = function(event){
 		const btn = event.target.closest('button');
 		if (btn.classList.contains('delete-task-btn')){
-			console.log("dupa");
 			btn.parentNode.parentNode.remove();
+			// del this task from data
+			// update LS
 		} else if(btn.classList.contains('toogle-complete-btn')){
 			$(btn).toggleClass('btn-success btn-light');
 		}
+	};
+
+	const ctrlInitData = function(){		
+		dataController.updateData(ctrlSets.LSTasksArray);
+
 	}
 
 return {
 	init: function(){
-		setupListeners();
+		ctrlInitData();
+		ctrlSetupListeners();
 		UIController.showTasks(dataController.getTasks());
-		dataController.addLocalStorage(dataController.getTasks());		
+		
+		
 		}
 	}
 
 }
 )();
 
-appController.init();
+controller.init();
 
 
