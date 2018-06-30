@@ -1,0 +1,19 @@
+{
+  "name": "todo-vanilla",
+  "version": "1.0.0",
+  "description": "[launch app](https://pawelgorniak.github.io/todo-vanilla-js/)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PawelGorniak/todo-vanilla-js.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PawelGorniak/todo-vanilla-js/issues"
+  },
+  "homepage": "https://github.com/PawelGorniak/todo-vanilla-js#readme"
+}
